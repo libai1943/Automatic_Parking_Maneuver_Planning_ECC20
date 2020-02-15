@@ -45,8 +45,10 @@ WriteInitialGuess(x, y, theta, xr, yr, xf, yf, v, a, phy, w, tf);
 WriteBoundaryValues();
 !ampl rr.run
 
-load opti_flag.txt
-if (opti_flag)
-    Statics();
-    Dynamics();
+if (exist('opti_flag.txt','file'))
+    load opti_flag.txt
+    if (opti_flag)
+        Statics();
+        Dynamics();
+    end
 end
