@@ -1,0 +1,32 @@
+reset;
+model NLP.mod;
+include initial_guess0.INIVAL;
+option solver ipopt;
+solve;
+
+shell ("del " & ("opti_flag.txt"));
+if match (solve_message, "Optimal") > 0 then {
+	printf "1">>("opti_flag.txt");
+} else{
+	printf "0">>("opti_flag.txt");
+}
+close ("opti_flag.txt");
+
+shell ("del " & ("x.txt"));
+shell ("del " & ("y.txt"));
+shell ("del " & ("theta.txt"));
+shell ("del " & ("phy.txt"));
+for {i in I} {
+	printf "%5.3f;", x[i]>>("x.txt");
+	printf "%5.3f;", y[i]>>("y.txt");
+	printf "%5.3f;", theta[i]>>("theta.txt");
+	printf "%5.3f;", phy[i]>>("phy.txt");
+}
+close ("x.txt");
+close ("y.txt");
+close ("theta.txt");
+close ("phy.txt");
+
+shell ("del " & ("terminal_time.txt"));
+printf "%5.3f;", tf>>("terminal_time.txt");
+close ("terminal_time.txt");

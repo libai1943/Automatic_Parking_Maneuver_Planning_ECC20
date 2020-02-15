@@ -1,0 +1,6 @@
+max_cpu_time	100
+tol		1e-8
+bound_push	0.01
+mu_strategy	adaptive
+linear_solver	ma57
+print_level		0
