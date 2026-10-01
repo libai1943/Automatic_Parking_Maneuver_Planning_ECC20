@@ -7,7 +7,7 @@ yf = y + vehicle_geometrics_.f2x .* sin(theta);
 BVr = zeros(length(x),4); % xmin, xmax, ymin, ymax
 BVf = BVr;
 
-delete('CC');
+if isfile('CC'), delete('CC'); end
 fid = fopen('CC', 'w');
 for ii = 1 : length(xr)
     x = xr(ii); y = yr(ii);
@@ -80,14 +80,14 @@ for ii = 1 : length(xr)
     BVf(ii,:) = [x - lb(2), x + lb(4), y - lb(3), y + lb(1)];
     xf(ii) = x; yf(ii) = y;
     
-    fprintf(fid, '%g 1 %f \r\n', ii, BVr(ii,1));
-    fprintf(fid, '%g 2 %f \r\n', ii, BVr(ii,2));
-    fprintf(fid, '%g 3 %f \r\n', ii, BVr(ii,3));
-    fprintf(fid, '%g 4 %f \r\n', ii, BVr(ii,4));
-    fprintf(fid, '%g 5 %f \r\n', ii, BVf(ii,1));
-    fprintf(fid, '%g 6 %f \r\n', ii, BVf(ii,2));
-    fprintf(fid, '%g 7 %f \r\n', ii, BVf(ii,3));
-    fprintf(fid, '%g 8 %f \r\n', ii, BVf(ii,4));
+    fprintf(fid, '%g 1 %.17g \r\n', ii, BVr(ii,1));
+    fprintf(fid, '%g 2 %.17g \r\n', ii, BVr(ii,2));
+    fprintf(fid, '%g 3 %.17g \r\n', ii, BVr(ii,3));
+    fprintf(fid, '%g 4 %.17g \r\n', ii, BVr(ii,4));
+    fprintf(fid, '%g 5 %.17g \r\n', ii, BVf(ii,1));
+    fprintf(fid, '%g 6 %.17g \r\n', ii, BVf(ii,2));
+    fprintf(fid, '%g 7 %.17g \r\n', ii, BVf(ii,3));
+    fprintf(fid, '%g 8 %.17g \r\n', ii, BVf(ii,4));
 end
 fclose(fid);
 end
