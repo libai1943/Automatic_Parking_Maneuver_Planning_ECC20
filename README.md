@@ -1,5 +1,7 @@
 # Automatic Parking with Safe Travel Corridors
 
+[Download ZIP](https://github.com/libai1943/Automatic_Parking_Maneuver_Planning_ECC20/archive/refs/heads/master.zip) · [Getting started](#matlab-one-click-example) · [Guide](#files-and-responsibilities) · [Citation](#citation)
+
 **From a hybrid A* path to a dynamically feasible, minimum-time parking maneuver.** This repository accompanies the ECC 2020 paper *Maneuver Planning for Automatic Parking with Safe Travel Corridors: A Numerical Optimal Control Approach*. It includes the original MATLAB/AMPL formulation and a standalone C++/CasADi implementation of its two-disc corridor optimization.
 
 ![Optimized trajectory and vehicle footprints from the included MATLAB example](docs/parking_example.png)
@@ -43,6 +45,19 @@ The entry point resolves its own directory and creates **two static figures**:
 Numerical results, AMPL inputs/outputs, and `solver.log` go into `results/`. Dynamics, endpoints, mechanical bounds, and corridor membership are checked before drawing the result. A failed solve raises an error instead of displaying an old trajectory.
 
 AMPL/IPOPT must support this problem size under their own licenses. To use another installation, place its executable and matching runtime libraries together. The entry point explicitly selects the local `ampl.exe`.
+
+### Inspect a parking maneuver
+
+After `result = RunMe()`, compare the independently checked residuals with the two plots. The MATLAB structure is also saved in `results/result.mat`.
+
+| Field | What to examine |
+| --- | --- |
+| `result.coarse_path` | The geometric Hybrid A* seed before time and controls are optimized. |
+| `result.rear_boxes`, `result.front_boxes` | At each node the two covering-disc centers have separate axis-aligned bounds. Both enter the corridor test. |
+| `result.v`, `result.phi`, `result.omega` | The sign of speed distinguishes forward and reverse. Steering angle and steering rate explain how the vehicle turns through a gear change. |
+| `result.validation` | Inspect `dynamics_residual`, `boundary_residual`, `limit_violation` and `corridor_violation`. The largest of the four must be below `1e-5` for the driver to accept the solve. |
+
+For a numerical comparison, use `result.duration` for the maneuver time and `result.planning_seconds` for elapsed planning time. [Validation code](ValidateParkingResult.m) · [ECC paper](https://doi.org/10.23919/ECC51009.2020.9143786)
 
 ## Files and responsibilities
 
